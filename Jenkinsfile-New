@@ -9,9 +9,7 @@ pipeline {
     stages {
         stage ('Sonarcube Scan') {
         steps {
-         script {
-          scannerHome = tool 'sonarqube'
-        }
+         
         withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]){
         withSonarQubeEnv('SonarQubeScanner') {
           sh " ${scannerHome}/bin/sonar-scanner \
@@ -33,9 +31,7 @@ pipeline {
 
           stage ('Build Docker Image') {
           steps {
-             script{
-              dockerHome= tool 'docker-inst'
-            }
+           
              //sh "${dockerHome}/bin/docker build . -t clixx-image:$VERSION "
             sh "docker build . -t clixx-image:$VERSION "
             sh "docker tag clixx-image:$VERSION clixx-image:latest"
