@@ -1,28 +1,32 @@
 ---
-  - name: "CliXX DB Deployment Ansible Playbook"
-    hosts: localhost
-    connection: local
-    #become: true
-    #ansible_become_user: root
-    vars:
-      instance_id: wordpressdbclixx-ecs
-      db_snapshot: wordpressdbclixx-ecs
-      security_group: sg-01748ba90a79e3679
-    tasks:
-       - name: Restore DB from snapshot
-         local_action:
-           module: rds
-           command: restore
-           snapshot: '{{db_snapshot }}'
-           instance_name: '{{ instance_id }}'
-           region: us-east-1
-           wait: yes
-           instance_type: db.m7g.large
-           wait_timeout: 1200
-       - name: Modify to add SG
-         local_action:
-           module: rds
-           command: modify
-           instance_name: '{{ instance_id }}'
-           region: us-east-1
-           vpc_security_groups: '{{ security_group }}'
+- name: "CliXX DB Deployment Ansible Playbook"
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    instance_id: wordpressdbclixx-ecs
+    db_snapshot: wordpressdbclixx-ecs
+    security_group: sg-01748ba90a79e3679
+
+  tasks:
+    - name: Restore DB from snapshot
+      amazon.aws.rds_instance:
+        id: "{{ instance_id }}"
+        snapshot: "{{ db_snapshot }}"
+        region: us-east-1
+        db_instance_class: db.m7g.large
+        state: present
+        wait: true
+        wait_timeout: 1200
+
+    - name: Modify DB to add security group
+      amazon.aws.rds_instance:
+        id: "{{ instance_id }}"
+        region: us-east-1
+        vpc_security_group_ids:
+          - "{{ security_group }}"
+        apply_immediately: true
+        state: present
+        wait: true
+        wait_timeout: 1200
