@@ -12,10 +12,12 @@ pipeline {
          
         withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]){
         withSonarQubeEnv('SonarQubeScanner') {
-          sh "sonar-scanner \
+          sh '''
+          sonar-scanner \
       -Dsonar.projectKey=CliXX-APP-Azeez_Solola \
       -Dsonar.token="$SONAR_TOKEN" \
-      -Dsonar.exclusions="**/wp-admin/**,**/wp-includes/**,**/wp-content/plugins/**,**/wp-content/themes/**,**/wp-content/uploads/**,**/wp-*.php,**/node_modules/**,**/vendor/**,**/tests/**,**/test/**,**/dist/**,**/build/**""
+      -Dsonar.exclusions="**/wp-admin/**,**/wp-includes/**,**/wp-content/plugins/**,**/wp-content/themes/**,**/wp-content/uploads/**,**/wp-*.php,**/node_modules/**,**/vendor/**,**/tests/**,**/test/**,**/dist/**,**/build/**"
+       '''
         }
         }
         }
