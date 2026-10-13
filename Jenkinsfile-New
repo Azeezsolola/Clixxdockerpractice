@@ -132,7 +132,7 @@ pipeline {
 
 
     }
-}
+
 
 def getSonarPath() {
     return "/opt/sonar-scanner/bin"
