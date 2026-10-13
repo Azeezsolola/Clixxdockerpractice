@@ -101,6 +101,7 @@ pipeline {
               echo "use wordpressdb;" > ./db.setup
               echo "UPDATE wp_options SET option_value = '$SERVER_IP' WHERE option_value LIKE 'CliXX-APP-%';" >> ./db.setup
               echo "commit;" >> ./db.setup
+              cat ./db.setup
               mysql -u "$USERNAME" --password="$PASSWORD" -h "$SERVERINSTANCE" -D "$DBNAME" < ./db.setup
 
             '''
