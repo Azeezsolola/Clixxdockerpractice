@@ -91,6 +91,7 @@ pipeline {
               PASSWORD="${DB_PASSWORD}"
               DBNAME="${DB_NAME}"
               SERVERINSTANCE="${SERVER_INSTANCE}"
+              TOKEN=$(curl -fsS -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
               SERVER_IP=$(curl -fsS -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/public-ipv4)              SERVERINSTANCE="${SERVER_INSTANCE}"
 
           
