@@ -5,27 +5,7 @@ pipeline {
         VERSION = "1.0.${BUILD_NUMBER}"
         PATH = "${PATH}:${getSonarPath()}:${getDockerPath()}"
     }
-    /*
-    stages {
-        stage('SonarQube Scan') {
-    steps {
-        withCredentials([
-            string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')
-        ]) {
-            withSonarQubeEnv('SonarQubeScanner') {
-                sh '''
-                    sonar-scanner \
-                      -Dsonar.projectKey=CliXX-APP-Azeez_Solola \
-                      -Dsonar.sources=. \
-                      -Dsonar.python.version=3.9 \
-                      -Dsonar.token="$SONAR_TOKEN" \
-                      -Dsonar.exclusions="**/python3-virtualenv/**,**/venv/**,**/.venv/**,**/__pycache__/**,**/node_modules/**,**/vendor/**,**/wp-admin/**,**/wp-includes/**,**/wp-content/plugins/**,**/wp-content/themes/**,**/wp-content/uploads/**,**/wp-*.php,**/tests/**,**/test/**,**/dist/**,**/build/**"
-                '''
-            }
-        }
-    }
-}
-*/
+   
 
 
  stage('Quality Gate') {
